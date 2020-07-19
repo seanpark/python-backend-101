@@ -1,0 +1,3 @@
+pip install bcrypt
+pip install flask-cors
+pip install pytest

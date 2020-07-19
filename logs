@@ -1,0 +1,572 @@
+                                                                              
+
+================================================= ERRORS =================================================
+___________________________________ ERROR collecting test_endpoints.py ___________________________________
+../../../opt/miniconda3/envs/api/lib/python3.7/site-packages/_pytest/python.py:511: in _importtestmodule
+    mod = self.fspath.pyimport(ensuresyspath=importmode)
+../../../opt/miniconda3/envs/api/lib/python3.7/site-packages/py/_path/local.py:704: in pyimport
+    __import__(modname)
+<frozen importlib._bootstrap>:983: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:967: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:677: in _load_unlocked
+    ???
+../../../opt/miniconda3/envs/api/lib/python3.7/site-packages/_pytest/assertion/rewrite.py:143: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+../../../opt/miniconda3/envs/api/lib/python3.7/site-packages/_pytest/assertion/rewrite.py:328: in _rewrite_test
+    tree = ast.parse(source, filename=fn)
+../../../opt/miniconda3/envs/api/lib/python3.7/ast.py:35: in parse
+    return compile(source, filename, mode, PyCF_ONLY_AST)
+E     File "/Users/sean/dev/Flask/api/test_endpoints.py", line 245
+E       data         = json.dumps({'id: 1,'follow' : 2}),
+E                                               ^
+E   SyntaxError: invalid syntax
+======================================== short test summary info =========================================
+ERROR test_endpoints.py
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+============================================ 1 error in 0.12s ============================================
+(api) sean@synim27 api % vi test_endpoints.py     
+(api) sean@synim27 api % pytest -p no:warnings -vv
+========================================== test session starts ===========================================
+platform darwin -- Python 3.7.7, pytest-5.4.3, py-1.9.0, pluggy-0.13.1 -- /Users/sean/opt/miniconda3/envs/api/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/sean/dev/Flask/api
+collected 6 items                                                                                        
+
+test_endpoints.py::test_ping PASSED                                                                [ 16%]
+test_endpoints.py::test_login PASSED                                                               [ 33%]
+test_endpoints.py::test_unauthorized PASSED                                                        [ 50%]
+test_endpoints.py::test_tweet FAILED                                                               [ 66%]
+test_endpoints.py::test_follow FAILED                                                              [ 83%]
+test_endpoints.py::test_unfollow FAILED                                                            [100%]
+
+================================================ FAILURES ================================================
+_______________________________________________ test_tweet _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_tweet(api):
+        ## 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fb0e063e610>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+______________________________________________ test_follow _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_follow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:195: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fb0e063e610>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+_____________________________________________ test_unfollow ______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_unfollow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:239: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fb0e063e610>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+======================================== short test summary info =========================================
+FAILED test_endpoints.py::test_tweet - json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (...
+FAILED test_endpoints.py::test_follow - json.decoder.JSONDecodeError: Expecting value: line 1 column 1 ...
+FAILED test_endpoints.py::test_unfollow - json.decoder.JSONDecodeError: Expecting value: line 1 column ...
+====================================== 3 failed, 3 passed in 1.98s =======================================
+(api) sean@synim27 api % vi test_endpoints.py     
+(api) sean@synim27 api % pytest -p no:warnings -vv
+========================================== test session starts ===========================================
+platform darwin -- Python 3.7.7, pytest-5.4.3, py-1.9.0, pluggy-0.13.1 -- /Users/sean/opt/miniconda3/envs/api/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/sean/dev/Flask/api
+collected 6 items                                                                                        
+
+test_endpoints.py::test_ping PASSED                                                                [ 16%]
+test_endpoints.py::test_login PASSED                                                               [ 33%]
+test_endpoints.py::test_unauthorized PASSED                                                        [ 50%]
+test_endpoints.py::test_tweet FAILED                                                               [ 66%]
+test_endpoints.py::test_follow FAILED                                                              [ 83%]
+test_endpoints.py::test_unfollow FAILED                                                            [100%]
+
+================================================ FAILURES ================================================
+_______________________________________________ test_tweet _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_tweet(api):
+        ## 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.load(resp.data.decode('utf-8'))
+
+test_endpoints.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fp = '', cls = None, object_hook = None, parse_float = None, parse_int = None, parse_constant = None
+object_pairs_hook = None, kw = {}
+
+    def load(fp, *, cls=None, object_hook=None, parse_float=None,
+            parse_int=None, parse_constant=None, object_pairs_hook=None, **kw):
+        """Deserialize ``fp`` (a ``.read()``-supporting file-like object containing
+        a JSON document) to a Python object.
+    
+        ``object_hook`` is an optional function that will be called with the
+        result of any object literal decode (a ``dict``). The return value of
+        ``object_hook`` will be used instead of the ``dict``. This feature
+        can be used to implement custom decoders (e.g. JSON-RPC class hinting).
+    
+        ``object_pairs_hook`` is an optional function that will be called with the
+        result of any object literal decoded with an ordered list of pairs.  The
+        return value of ``object_pairs_hook`` will be used instead of the ``dict``.
+        This feature can be used to implement custom decoders.  If ``object_hook``
+        is also defined, the ``object_pairs_hook`` takes priority.
+    
+        To use a custom ``JSONDecoder`` subclass, specify it with the ``cls``
+        kwarg; otherwise ``JSONDecoder`` is used.
+        """
+>       return loads(fp.read(),
+            cls=cls, object_hook=object_hook,
+            parse_float=parse_float, parse_int=parse_int,
+            parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)
+E       AttributeError: 'str' object has no attribute 'read'
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:293: AttributeError
+______________________________________________ test_follow _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_follow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:195: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7f83a81a65d0>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+_____________________________________________ test_unfollow ______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_unfollow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:239: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7f83a81a65d0>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+======================================== short test summary info =========================================
+FAILED test_endpoints.py::test_tweet - AttributeError: 'str' object has no attribute 'read'
+FAILED test_endpoints.py::test_follow - json.decoder.JSONDecodeError: Expecting value: line 1 column 1 ...
+FAILED test_endpoints.py::test_unfollow - json.decoder.JSONDecodeError: Expecting value: line 1 column ...
+====================================== 3 failed, 3 passed in 1.97s =======================================
+(api) sean@synim27 api % vi test_endpoints.py     
+(api) sean@synim27 api % pytest -p no:warnings -vv
+========================================== test session starts ===========================================
+platform darwin -- Python 3.7.7, pytest-5.4.3, py-1.9.0, pluggy-0.13.1 -- /Users/sean/opt/miniconda3/envs/api/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/sean/dev/Flask/api
+collected 6 items                                                                                        
+
+test_endpoints.py::test_ping PASSED                                                                [ 16%]
+test_endpoints.py::test_login PASSED                                                               [ 33%]
+test_endpoints.py::test_unauthorized PASSED                                                        [ 50%]
+test_endpoints.py::test_tweet FAILED                                                               [ 66%]
+test_endpoints.py::test_follow FAILED                                                              [ 83%]
+test_endpoints.py::test_unfollow FAILED                                                            [100%]
+
+================================================ FAILURES ================================================
+_______________________________________________ test_tweet _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_tweet(api):
+        ## 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+        print(resp)
+>       resp_json    = json.load(resp.data.decode('utf-8'))
+
+test_endpoints.py:119: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fp = '', cls = None, object_hook = None, parse_float = None, parse_int = None, parse_constant = None
+object_pairs_hook = None, kw = {}
+
+    def load(fp, *, cls=None, object_hook=None, parse_float=None,
+            parse_int=None, parse_constant=None, object_pairs_hook=None, **kw):
+        """Deserialize ``fp`` (a ``.read()``-supporting file-like object containing
+        a JSON document) to a Python object.
+    
+        ``object_hook`` is an optional function that will be called with the
+        result of any object literal decode (a ``dict``). The return value of
+        ``object_hook`` will be used instead of the ``dict``. This feature
+        can be used to implement custom decoders (e.g. JSON-RPC class hinting).
+    
+        ``object_pairs_hook`` is an optional function that will be called with the
+        result of any object literal decoded with an ordered list of pairs.  The
+        return value of ``object_pairs_hook`` will be used instead of the ``dict``.
+        This feature can be used to implement custom decoders.  If ``object_hook``
+        is also defined, the ``object_pairs_hook`` takes priority.
+    
+        To use a custom ``JSONDecoder`` subclass, specify it with the ``cls``
+        kwarg; otherwise ``JSONDecoder`` is used.
+        """
+>       return loads(fp.read(),
+            cls=cls, object_hook=object_hook,
+            parse_float=parse_float, parse_int=parse_int,
+            parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)
+E       AttributeError: 'str' object has no attribute 'read'
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:293: AttributeError
+------------------------------------------ Captured stdout call ------------------------------------------
+<Response streamed [401 UNAUTHORIZED]>
+______________________________________________ test_follow _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_follow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fb54887e790>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+_____________________________________________ test_unfollow ______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_unfollow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fb54887e790>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+======================================== short test summary info =========================================
+FAILED test_endpoints.py::test_tweet - AttributeError: 'str' object has no attribute 'read'
+FAILED test_endpoints.py::test_follow - json.decoder.JSONDecodeError: Expecting value: line 1 column 1 ...
+FAILED test_endpoints.py::test_unfollow - json.decoder.JSONDecodeError: Expecting value: line 1 column ...
+====================================== 3 failed, 3 passed in 1.97s =======================================
+(api) sean@synim27 api % vi test_endpoints.py     
+(api) sean@synim27 api % pytest -p no:warnings -vv
+========================================== test session starts ===========================================
+platform darwin -- Python 3.7.7, pytest-5.4.3, py-1.9.0, pluggy-0.13.1 -- /Users/sean/opt/miniconda3/envs/api/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/sean/dev/Flask/api
+collected 6 items                                                                                        
+
+test_endpoints.py::test_ping PASSED                                                                [ 16%]
+test_endpoints.py::test_login PASSED                                                               [ 33%]
+test_endpoints.py::test_unauthorized PASSED                                                        [ 50%]
+test_endpoints.py::test_tweet FAILED                                                               [ 66%]
+test_endpoints.py::test_follow FAILED                                                              [ 83%]
+test_endpoints.py::test_unfollow FAILED                                                            [100%]
+
+================================================ FAILURES ================================================
+_______________________________________________ test_tweet _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_tweet(api):
+        ## 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       print(resp+"synack")
+E       TypeError: unsupported operand type(s) for +: 'Response' and 'str'
+
+test_endpoints.py:118: TypeError
+______________________________________________ test_follow _______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_follow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fbb3873d710>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+_____________________________________________ test_unfollow ______________________________________________
+
+api = <FlaskClient <Flask 'app'>>
+
+    def test_unfollow(api):
+        # 로그인
+        resp = api.post(
+            '/login',
+            data         = json.dumps({'email' : 'songew@gmail.com', 'password' : 'test password'}),
+            content_type = 'application/json'
+        )
+>       resp_json    = json.loads(resp.data.decode('utf-8'))
+
+test_endpoints.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../opt/miniconda3/envs/api/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7fbb3873d710>, s = '', idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+../../../opt/miniconda3/envs/api/lib/python3.7/json/decoder.py:355: JSONDecodeError
+======================================== short test summary info =========================================
+FAILED test_endpoints.py::test_tweet - TypeError: unsupported operand type(s) for +: 'Response' and 'str'
+FAILED test_endpoints.py::test_follow - json.decoder.JSONDecodeError: Expecting value: line 1 column 1 ...
+FAILED test_endpoints.py::test_unfollow - json.decoder.JSONDecodeError: Expecting value: line 1 column ...
+====================================== 3 failed, 3 passed in 2.04s =======================================
+(api) sean@synim27 api % 
